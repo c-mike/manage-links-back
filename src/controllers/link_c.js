@@ -1,18 +1,35 @@
-const model = require('../models/link_m')
+const Link = require('../models/link_m')
 
-async function all(req, res){
-    res.send('to do')
+async function all(_, res){
+    await Link.findAll()
+    .catch(error => res.status(404).send(error))
+    .then(data => res.send(data))
 }
 
 async function add(req, res) {
-    res.send('to do')
+    const {title, url} = req.body
+    await Link.create(
+        {title, url})
+    .catch(error => { return res.status(400).send(error)})
+    res.sendStatus(201)
 }
+
 async function remove(req, res) {
-    res.send('to do')
+    const {id} = req.body
+    await Link.destroy({
+        where:{id}
+    })
+    .catch(error => { return res.status(404).send(error)})
+    res.sendStatus(200)
 }
 
 async function edit(req, res) {
-    res.send('to do')
+    const {id, title, url} = req.body
+    await Link.update(
+        {title, url}, 
+        {where:{id}})
+    .catch(error => { return res.status(404).send(error)})
+    res.sendStatus(200)
 }
 
-module.exports = { all, add, remove, edit}
+module.exports = {all, add, remove, edit}

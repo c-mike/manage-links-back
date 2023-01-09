@@ -1,4 +1,5 @@
 const {DataTypes, Model} = require('sequelize')
+const db = require('../config/db')
 
 class Link extends Model {}
 Link.init ({
@@ -13,8 +14,9 @@ Link.init ({
         allowNull: false,
     },
 }, {
+    sequelize :db,
     modelName: 'Links',
     timestamps: false,
 })
 
-module.exports = { Link }
+module.exports = Link
