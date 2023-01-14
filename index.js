@@ -12,7 +12,14 @@ db.authenticate()
   .then(() => console.log('Database connected...'))
   .catch(err => console.log('ERROR: '+ err))
 
-// db.sync() // use only when u are altering the models/model file
+app.use((req, res, next) => {
+  const allowedOrigins = ['*'];
+  res.header('Access-Control-Allow-Origin', allowedOrigins);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
+});
 
 const routes = require('./src/routes')
 app.use(routes)
